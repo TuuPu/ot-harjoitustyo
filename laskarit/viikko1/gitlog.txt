@@ -1,0 +1,114 @@
+commit 30321c472914d2a23c7c97ab9cdd1c2ade19aa3f
+Author: Tuukka Puonti <puontit@gmail.com>
+Date:   Thu Mar 18 17:03:08 2021 +0200
+
+    filu1 poistettu, file2 nyt file22
+
+ tiedostoja/file2             | 0
+ tiedostoja/{file1 => file22} | 0
+ 2 files changed, 0 insertions(+), 0 deletions(-)
+
+commit 47f7556cfc4342e62809404d1ece58fcfb64d6b8
+Author: Tuukka Puonti <puontit@gmail.com>
+Date:   Thu Mar 18 16:53:21 2021 +0200
+
+    kolme filua
+
+ tiedostoja/file1 | 0
+ tiedostoja/file2 | 0
+ tiedostoja/file3 | 0
+ 3 files changed, 0 insertions(+), 0 deletions(-)
+
+commit d40e432c5a1aa4c052a95e586eebe6c001fce772
+Author: Tuukka Puonti <puontit@gmail.com>
+Date:   Thu Mar 18 16:07:23 2021 +0200
+
+    eka ja kolmas teksti muutettu
+
+ eka.txt    | 3 ++-
+ kolmas.txt | 2 +-
+ 2 files changed, 3 insertions(+), 2 deletions(-)
+
+commit 80f55c35e4a3288365f09c5188c96519cb95e80f
+Author: Tuukka Puonti <puontit@gmail.com>
+Date:   Thu Mar 18 16:04:47 2021 +0200
+
+    tiedosto -> eka nimenvaihdos
+
+ tiedosto.txt => eka.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit 3ce9efd0993796edf6958c3c0cd8c8c3256cc95b
+Author: Tuukka Puonti <puontit@gmail.com>
+Date:   Thu Mar 18 16:02:01 2021 +0200
+
+    toinen.txt poistettu
+
+ toinen.txt | 1 -
+ 1 file changed, 1 deletion(-)
+
+commit d16697bb68303b46b5bc2daadc48d5f0b53896dc
+Author: Tuukka Puonti <puontit@gmail.com>
+Date:   Thu Mar 18 15:57:42 2021 +0200
+
+    tiedosto.txt muokattu, poistettu hieman, lisätty hieman tekstiä.
+
+ tiedosto.txt | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+commit 28a52b959027067478f09529a407b19526db0a77
+Author: Tuukka Puonti <puontit@gmail.com>
+Date:   Thu Mar 18 15:56:05 2021 +0200
+
+    tiedosto.txt lisätty paljon tekstiä.
+
+ tiedosto.txt | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+commit cf130136c261531873e1de7146689c7a77ccc9e2
+Author: Tuukka Puonti <puontit@gmail.com>
+Date:   Thu Mar 18 15:45:47 2021 +0200
+
+    jokintiedosto.txt lisätty
+
+ stuff/jokintiedosto.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit aca5755e158410ea0cf29aa5ca0549ffe57b6eb4
+Author: Tuukka Puonti <puontit@gmail.com>
+Date:   Thu Mar 18 15:44:24 2021 +0200
+
+    toinen ja kolmas muokattu
+
+ kolmas.txt | 1 +
+ toinen.txt | 1 +
+ 2 files changed, 2 insertions(+)
+
+commit 8092cae8f95423ca195b9f64a0b17333f65d9417
+Author: Tuukka Puonti <puontit@gmail.com>
+Date:   Thu Mar 18 15:43:22 2021 +0200
+
+    kolmas.txt lisätty
+
+ kolmas.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit 6c36c0070c2147323e5345621237625d700091f6
+Author: Tuukka Puonti <puontit@gmail.com>
+Date:   Thu Mar 18 12:12:19 2021 +0200
+
+    muutos ja lisäys
+
+ tiedosto.txt | 1 +
+ toinen.txt   | 0
+ 2 files changed, 1 insertion(+)
+
+commit 154336fa7fccddd57c01724a536dfb434504e391
+Author: Tuukka Puonti <puontit@gmail.com>
+Date:   Thu Mar 18 11:58:48 2021 +0200
+
+    tiedosto.txt luotu
+
+ tiedosto.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+Epäsynkka
