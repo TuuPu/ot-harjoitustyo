@@ -9,3 +9,7 @@ Johon on ilmeisesti helppo lisätä **lihavoitua tekstiä** ja myöskin *kursivo
 [gitlog.txt](https://github.com/TuuPu/ot-harjoitustyo/blob/master/laskarit/viikko1/gitlog.txt)
 
 [komentorivi.txt](https://github.com/TuuPu/ot-harjoitustyo/blob/master/laskarit/viikko1/komentorivi.txt)
+
+## Dokumentaatio
+
+[Vaativuusmäärittely](https://github.com/TuuPu/ot-harjoitustyo/blob/master/laskarit/dokumentaatio/vaativuusmaarittely.md)

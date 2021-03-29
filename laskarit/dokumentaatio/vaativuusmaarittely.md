@@ -3,7 +3,7 @@
 ## Sovelluksen käyttötarkoitus
 
 Sovellus mahdollistaa käyttäjän seurata omia opintojaan ja asettaa itselleen
-tuntimääräisiä tavoitteita per. päivä per. kurssi.
+tuntimääräisiä tavoitteita per. päivä ja per. kurssi.
 
 ## Käyttäjät
 
@@ -23,15 +23,13 @@ tuntien suhteen.
 * Ajastimen aktivointi (start/stop) opiskelusession alkaessa ja päättyessä.
 * Tuntitavoitteen asettaminen ja ilmoitus kuinka paljon tavoitteesta ollaan
   jäljessä.
-* Tekstikäyttöliittymä
+* Tekstikäyttöliittymä.
 
 ## Jatkokehitys
 
-* Graafinen käyttöliittymä
-* Mahdollinen sisäänkirjautuminen
-* Graafinen statistinen esitys opiskeluista ja vertailu keskimääräiseen opis-
-  kelu aikaan (1 op ~27 tuntia)
+* Graafinen käyttöliittymä.
+* Mahdollinen sisäänkirjautuminen.
+* Graafinen statistinen esitys opiskeluista ja vertailu keskimääräiseen opiskeluaikaan (1 op ~27 tuntia).
 * Varoitus, jos opiskelumäärä ylittää 27 tuntia ja kehotus vapaa-ajan viettoon.
 * Tarkempi datan tarkastelu viikonpäivän ja ajankohdan perusteella.
-* Mahdollisuus syöttää arvosana kurssin päätyttyä ja vertailla tuntimäärää arvo-
-  sanan valossa.
+* Mahdollisuus syöttää arvosana kurssin päätyttyä ja vertailla tuntimäärää arvosanan valossa.
