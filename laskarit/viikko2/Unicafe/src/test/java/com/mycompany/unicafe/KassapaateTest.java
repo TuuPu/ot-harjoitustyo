@@ -116,7 +116,6 @@ public class KassapaateTest {
         kassa.lataaRahaaKortille(kortti, 400);
         kassa.lataaRahaaKortille(eiRiita, -5);
         assertEquals(230, eiRiita.saldo());
-        assertEquals(100400, kassa.kassassaRahaa());
         assertEquals(1400, kortti.saldo());
         assertEquals(100400, kassa.kassassaRahaa());
     }
