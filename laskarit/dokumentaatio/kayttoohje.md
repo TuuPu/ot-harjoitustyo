@@ -11,3 +11,7 @@ valitsemalla 2 käyttäjä voi valita *jo luoduista* kursseista haluamansa seura
 valitsemalla 3 käyttäjä käynnistää ajastimen ja aloittaa opintojen seurannan *valitulle* kurssille.
 valitsemalla 4 käyttäjä lopettaa aloitetun seurannan ja saa tietoonsa sen prosentuaalisen etenemisen tavoitteeseensa nähden.
 valitsemalla 5 ohjelma lopetetaan.
+
+## Huomionarvoista!
+
+Testit, jotka tarkastavat prosenttiarvojen oikeaa esitystapaa onnistuvat, kun testit tehdään cubblilla, muttta epäonnistuvat macOS-käyttöjärjestelmällä. Tämä johtuu siitä, että prosenttiarvot palautetaan String-muodossa ja ne on asetettu toimimaan Cubblin mukaan, joka palauttaa 00.00 tyyppisen arvon. MacOS:llä testatessa palautettava arvo on muotoa 00,00.
