@@ -1,6 +1,6 @@
 # Käyttöohje
 
-##Ohjelman käynnistäminen
+## Ohjelman käynnistäminen
 Ohjelma käynnistyy komennolla mvn compile exec:java -Dexec.mainClass=productivitytracker.Main.
 MacOS-käyttöjärjestelmällä käynnistäminen ja testit ovat suoriutuneet ongelmitta. Cublilla kokeiltaessa compile ei aina jostain syystä toiminut, vaan vaati mvn clean & mvn compile komennot ennen edellämainittua käynnistyskomentoa. Mutta ohjelma kuitenkin toimii moitteetta laitoksen koneilla.
 
