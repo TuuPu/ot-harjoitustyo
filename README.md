@@ -8,7 +8,9 @@ Valmiissa versiossa sessiot otetaan talteen ja ne lajitellaan tietokantaan päiv
 ## Dokumentaatio
 
 [Vaativuusmäärittely](https://github.com/TuuPu/ot-harjoitustyo/blob/master/laskarit/dokumentaatio/vaativuusmaarittely.md)
+
 [Tuntikirjanpito](https://github.com/TuuPu/ot-harjoitustyo/blob/master/laskarit/dokumentaatio/tuntikirjanpito.md)
+
 [Käyttöohje](https://github.com/TuuPu/ot-harjoitustyo/blob/master/laskarit/dokumentaatio/kayttoohje.md)
 
 ## Komentorivitoiminnot
