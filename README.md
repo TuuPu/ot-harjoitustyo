@@ -13,6 +13,8 @@ Valmiissa versiossa sessiot otetaan talteen ja ne lajitellaan tietokantaan päiv
 
 [Käyttöohje](https://github.com/TuuPu/ot-harjoitustyo/blob/master/laskarit/dokumentaatio/kayttoohje.md)
 
+[Arkkitehtuuri](https://github.com/TuuPu/ot-harjoitustyo/blob/master/laskarit/dokumentaatio/arkkitehtuuri.md)
+
 ## Komentorivitoiminnot
 
 ### Suoritus
