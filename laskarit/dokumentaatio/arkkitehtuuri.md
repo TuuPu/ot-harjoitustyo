@@ -1,4 +1,4 @@
-##Luokkakaavio
+## Luokkakaavio
 
 ![alt text](https://github.com/TuuPu/ot-harjoitustyo/blob/master/laskarit/dokumentaatio/kuvat/ProductivityLuokkakaavio.PNG)
 
