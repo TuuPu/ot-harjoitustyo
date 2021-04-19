@@ -1,0 +1,1 @@
+![Luokkakaavio](/Documents/ProductivityLuokkakaavio.png)

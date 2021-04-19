@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 import java.time.*;
+import java.time.format.*;
 import java.util.concurrent.TimeUnit;
 import junit.framework.Assert;
 import productivitytracker.course.*;
@@ -21,9 +22,13 @@ import static org.junit.Assert.*;
 public class CourseTest {
     
     Course newCourseTest;
+    Course newCourseTest1;
+    Course newCourseTest2;
     
     public CourseTest() {
         newCourseTest=new Course();
+        newCourseTest1=new Course();
+        newCourseTest2=new Course();
     }
     
     @BeforeClass
@@ -41,6 +46,43 @@ public class CourseTest {
     @After
     public void tearDown() {
     }
+    
+    @Test
+    public void setCourse() {
+        newCourseTest.setCourse("tira");
+        assertEquals("tira", newCourseTest.getCourse());
+    }
+    
+    @Test
+    public void setPoints() {
+        newCourseTest.setPoints(5);
+        String asDouble=Double.toString(5.0);
+        assertEquals(asDouble, Double.toString(newCourseTest.getPoints()));
+    }
+    
+    @Test
+    public void setGrade() {
+        newCourseTest.setGrade(4);
+        assertEquals(4, newCourseTest.getGrade());
+    }
+    
+    @Test
+    public void getSessionTime() {
+        double zero=0.0;
+        String asDouble=Double.toString(zero);     
+        assertEquals(asDouble, Double.toString(newCourseTest.getSessionTime()));
+    }
+    
+    
+    
+    @Test
+    public void getDailyGoal() {
+        newCourseTest.setDailyGoal(2);
+        String asDouble=Double.toString(2.0);
+        assertEquals(asDouble, Double.toString(newCourseTest.getDailyGoal()));
+    }
+    
+    
     
     @Test
     public void stopTimeIsGreaterThanStartTime() throws InterruptedException{
@@ -63,12 +105,17 @@ public class CourseTest {
         newCourseTest.startSession();
         TimeUnit.SECONDS.sleep(1);
         newCourseTest.stopSession();
-        assertEquals("0.00", newCourseTest.getSessionVsGoalPercentage());
-        newCourseTest.setDailyGoal(-5);
-        newCourseTest.startSession();
+        assertEquals("0,00", newCourseTest.getSessionVsGoalPercentage());
+        newCourseTest1.setDailyGoal(-5);
+        newCourseTest1.startSession();
         TimeUnit.SECONDS.sleep(1);
-        newCourseTest.stopSession();
-        assertEquals("0.00",newCourseTest.getSessionVsGoalPercentage());
+        newCourseTest1.stopSession();
+        assertEquals("0,00",newCourseTest1.getSessionVsGoalPercentage());
+        newCourseTest2.setDailyGoal(3);
+        newCourseTest2.startSession();
+        TimeUnit.SECONDS.sleep(1);
+        newCourseTest2.stopSession();
+        assertEquals("0,00", newCourseTest2.getSessionVsGoalPercentage());
     }
 
     // TODO add test methods here.

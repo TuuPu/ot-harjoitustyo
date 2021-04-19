@@ -6,13 +6,14 @@
 package productivitytracker;
 import java.util.*;
 import productivitytracker.ui.UserInterface;
+import java.sql.SQLException;
 /**
  *
  * @author tuukkapuonti
  */
 public class Main {
-    public static void main(String[] args){
+    public static void main(String[] args)throws SQLException {
         UserInterface ui = new UserInterface();
-        ui.Launch();
+        ui.launch();
     }
 }

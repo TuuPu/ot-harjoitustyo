@@ -15,7 +15,9 @@ Valitsemalla 3 käyttäjä käynnistää ajastimen ja aloittaa opintojen seurann
 
 Valitsemalla 4 käyttäjä lopettaa aloitetun seurannan ja saa tietoonsa sen prosentuaalisen etenemisen tavoitteeseensa nähden.
 
-Valitsemalla 5 ohjelma lopetetaan.
+Valitsemalla 5 käyttäjä saa mahdollisuuden valita alavalikossa "A", "B" tai "C" ja näkee opiskeluaijoistaan tarkempaa dataa. Tosin tällä hetkellä vain opiskelun totaaliaikoja tietyin kriteerein.
+
+Valitsemalla 6 ohjelma lopetetaan ja database suljetaan.
 
 ## Huomionarvoista!
 
