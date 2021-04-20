@@ -49,7 +49,7 @@ public class PTDataBase {
             statement.execute("CREATE TABLE Daily (id INTEGER PRIMARY KEY, course_id TEXT, date TEXT, dayOfWeek TEXT, timeForDay REAL, courseForDay TEXT)");
             System.out.println("Database created");
         } catch (SQLException e) {
-            System.out.println("Tables created");
+            System.out.println("Tables have been created");
         }
     }
     

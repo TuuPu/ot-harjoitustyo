@@ -34,6 +34,7 @@ public class UserInterface {
                 courseName = base.getCourses().get(i).toString();
                 Course tempCourse = new Course();
                 this.courseMap.put(courseName, tempCourse);
+                tempCourse.setCourse(courseName);
                 tempCourse.setDailyGoal(base.getDailyGoal(courseName));
                 tempCourse.setPoints(base.getCoursePoints(courseName));
             }
@@ -46,6 +47,7 @@ public class UserInterface {
         PTDataBase base = new PTDataBase();       
         Scanner sc = new Scanner(System.in);
         loadClasses(base);
+        System.out.println(this.courseMap);
         boolean stop = false;
         do {
             System.out.println("Create a new course to track (choose 1)");
@@ -60,7 +62,7 @@ public class UserInterface {
                     Course newcourse = new Course();
                     System.out.println("Course name?");
                     String name = sc.nextLine();
-                    if (this.courseMap.containsKey(name)) {
+                if (this.courseMap.containsKey(name)) {
                         System.out.println("The course is already in the database, create a new course?");
                         break;
                     }                   
@@ -97,7 +99,9 @@ public class UserInterface {
                         System.out.println("------------------------------------");
                     } else {
                         this.currentCourse = this.courseMap.get(courseName);
+                        System.out.println(this.currentCourse);
                         this.currentCourseName = this.currentCourse.getCourse();
+                        System.out.println(this.currentCourse.getCourse());
                     }
                     System.out.println("----------------------------------------");
                     break;
