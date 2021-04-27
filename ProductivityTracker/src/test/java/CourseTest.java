@@ -41,6 +41,7 @@ public class CourseTest {
     
     @Before
     public void setUp() {
+        
     }
     
     @After
@@ -83,7 +84,8 @@ public class CourseTest {
     }
     
     
-    
+    /*
+   
     @Test
     public void stopTimeIsGreaterThanStartTime() throws InterruptedException{
         newCourseTest.startSession();
@@ -95,7 +97,7 @@ public class CourseTest {
         }
         assertTrue(check);
     }
-    
+    */
     @Test
     public void percentageIsZeroIfGoalTimeIsNotCorrect() throws InterruptedException{
         //Tähän saattaa tulla vielä tarkempi testi, toistaiseksi opiskelua mitataan

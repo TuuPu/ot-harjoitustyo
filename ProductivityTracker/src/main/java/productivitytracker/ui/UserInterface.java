@@ -8,6 +8,8 @@ import java.sql.SQLException;
 import java.util.*;
 import productivitytracker.course.Course;
 import productivitytracker.ptdatabase.PTDataBase;
+import productivitytracker.statistics.Statistics;
+import java.text.DecimalFormat;
 /**
  *
  * @author tuukkapuonti
@@ -19,8 +21,10 @@ public class UserInterface {
     String currentCourseName;
     String choice;
     boolean studying;
+    DecimalFormat numberFormat;
     
     public UserInterface() {
+        numberFormat = new DecimalFormat("0.00");
         this.currentCourseName = "";     
         this.choice = "";
         this.studying = false;
@@ -44,10 +48,10 @@ public class UserInterface {
     }
     
     public void launch() throws SQLException {
-        PTDataBase base = new PTDataBase();       
+        PTDataBase base = new PTDataBase(false);
+        Statistics stats = new Statistics(base);
         Scanner sc = new Scanner(System.in);
         loadClasses(base);
-        System.out.println(this.courseMap);
         boolean stop = false;
         do {
             System.out.println("Create a new course to track (choose 1)");
@@ -139,17 +143,71 @@ public class UserInterface {
                         case "A":
                             System.out.println("Type in day, for example 'Mon' (case sensitive)");
                             String day = sc.nextLine();
-                            System.out.println("Your studies for " + day + " are in total: " + base.getStudyTimeByDay(day) + " hours");
+                            double meanDouble=stats.getMean(day, 1);
+                            double medianDouble=stats.getMedian(day, 1);
+                            double stdDouble=stats.getSTD(day, 1);
+                            double totalDouble=stats.getTotal(day, 1);
+                            String totalString=numberFormat.format(totalDouble);
+                            String stdString=numberFormat.format(stdDouble);
+                            String medianString=numberFormat.format(medianDouble);
+                            String meanString=numberFormat.format(meanDouble);                                                   
+                            System.out.println("Mean of studytime for day " + day + ": " + meanString + " hours");
+                            System.out.println("Median of studytime for day " + day + ": " + medianString + " hours");
+                            System.out.println("Standard deviation of studytime for day " + ": " + stdString + " hours");
+                            System.out.println("Total studytime for " + day + ": " + totalString + " hours");
+                            LinkedHashMap <String, Double> dayTotals = new LinkedHashMap<String, Double>();
+                            dayTotals=stats.getTotalHoursPerDay();
+                            System.out.println("And the total time spent studying for each day of the week:");
+                            for(Map.Entry<String, Double> entry : dayTotals.entrySet()){
+                                String key=entry.getKey();
+                                double value=entry.getValue();
+                                String valueString=numberFormat.format(value);
+                                System.out.println( key + " " + valueString + " hours" );
+                            }
                             break;
                         case "B":
+                            LinkedHashMap <String, Double> avgMap = new LinkedHashMap<>();
                             System.out.println("Type in course, for example 'ohte' (case sensitive)");
                             String course = sc.nextLine();
-                            System.out.println("Your studies for " + course + " are in total: " + base.getStudyTimesByCourse(course) + " hours");
+                            meanDouble=stats.getMean(course, 0);
+                            medianDouble=stats.getMedian(course, 0);
+                            stdDouble=stats.getSTD(course, 0);
+                            totalDouble=stats.getTotal(course, 0);
+                            meanString=numberFormat.format(meanDouble);
+                            medianString=numberFormat.format(medianDouble);
+                            stdString=numberFormat.format(stdDouble);
+                            totalString=numberFormat.format(totalDouble);
+                            avgMap=stats.getAvgStudyAgainstGoal(course);
+                            System.out.println("Mean of studytime for course " + course + ": " + meanString + " hours");
+                            System.out.println("Median of studytime for course " + course + ": " + medianString + " hours");
+                            System.out.println("Standard deviation of studytime for course " + ": " + stdString + " hours");
+                            System.out.println("Total studytime for " + course + ": " + totalString + " hours");
+                            System.out.println("And an average for study time per. day compared to goal time:");
+                            for(Map.Entry<String, Double> entry2 : avgMap.entrySet()){
+                                String key=entry2.getKey();
+                                double number=entry2.getValue();
+                                String value=numberFormat.format(number);
+                                if(value.equals("NaN")){
+                                    value="0";
+                                }
+                                System.out.println(key + " " + value + "%");
+                            }                          
                             break;
                         case "C":
-                            System.out.println("Type in date, for example '19.04.2021' (form sensitive)");
+                            System.out.println("Type in date, for example '19.04.2021' (form sensitive)");                          
                             String date = sc.nextLine();
-                            System.out.println("Your studies for " + date + " are in total: " + base.getStudyTimeByDate(date) + " hours");
+                            meanDouble=stats.getMean(date, 2);
+                            medianDouble=stats.getMedian(date, 2);
+                            stdDouble=stats.getSTD(date, 2);
+                            totalDouble=stats.getTotal(date, 2);
+                            meanString=numberFormat.format(meanDouble);
+                            medianString=numberFormat.format(medianDouble);
+                            stdString=numberFormat.format(stdDouble);
+                            totalString=numberFormat.format(totalDouble);
+                            System.out.println("Mean of studytime for date " + date + ": " + meanString + " hours");
+                            System.out.println("Median of studytime for date " + date + ": " + medianString + " hours");
+                            System.out.println("Standard deviation of studytime for date " + date + ": " + stdString + " hours");
+                            System.out.println("Total studytime for " + date + ": " + totalString + " hours");                           
                             break;
                         default:
                     }
