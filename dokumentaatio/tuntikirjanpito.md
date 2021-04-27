@@ -11,5 +11,9 @@ Päivä | aika | aktiviteetti
 16.04 | 3 | Databasen koodaamisen jatkaminen
 18.04 | 2 | UI:n päivitys käyttämään databasea ja lisäämään hakuvaihtoehtoja käyttäjälleen
 19.04 | 6 | Databasen viimeisten toimintojen suunnittelu, testaus ja implementointi. Testikattavuuden kasvatus ja checstyle kuntoon
+21.04 | 5 | Matematiikkakirjasto pomiin ja statistiikkaluokan suunnitelu + ohjelmoinnin aloittaminen
+25.04 | 6 | Statistiikkaluokan toiminnallisuuksien ohjelmointia
+26.04 | 3 | Tietokanta-luokan ja statistiikka-luokan keskenäisen toiminnan ohjelmointi
+27.04 | 3 | UI:n päivitys hyödyntämään statistiikkaluokkaa laskuissa tietokannan ja kurssi-luokan sijaan.
 ----- | --- | --------------
-total | 34.5 |
+total | 51.5 |

@@ -34,3 +34,23 @@ Testikattavuuden luominen:
 ```
 mvn test jacoco:report
 ```
+## Suoritettavan jarin generoiminen
+
+Komento
+
+```
+mvn package
+```
+
+Generoi hakemistoon target suoritettavan jar-tiedoston ProductivityTracker-1.0-SNAPSHOT.jar
+Jaria generoitaessa sen avaaminen suoraan target-hakemistosta ei toiminut. Ratkaisu tähän on siirtää jar-tiedosto toiseen hakemistoon ja avata se sieltä. Omassa kansiorakenteessa siirsin sen samaan hakemistoon pom.xml tiedoston kanssa, josta suoritus onnistui.
+
+## Checkstyle
+
+Checkstylen tarkistamiseksi voit suorittaa komennon
+
+```
+mvn jxr:jxr checkstyle:checkstyle
+```
+
+Generoidun raportin löydät hakemistosta target/site/checkstyle.html

@@ -5,7 +5,7 @@ Ohjelma käynnistyy komennolla mvn compile exec:java -Dexec.mainClass=productivi
 MacOS-käyttöjärjestelmällä käynnistäminen ja testit ovat suoriutuneet ongelmitta. Cublilla kokeiltaessa compile ei aina jostain syystä toiminut, vaan vaati mvn clean & mvn compile komennot ennen edellämainittua käynnistyskomentoa. Mutta ohjelma kuitenkin toimii moitteetta laitoksen koneilla.
 
 ## Ohjelman käyttö
-Ohjelman käynnistyessä käyttäjä voi valita numeron välillä 1...5. Numeroidut komennot johtavat seuraaviin toimintoihin:
+Ohjelman käynnistyessä käyttäjä voi valita numeron välillä 1...6. Numeroidut komennot johtavat seuraaviin toimintoihin:
 
 Valitsemalla 1 käyttäjä voi *luoda* uuden kurssin, esim. ohte. Tämän jälkeen käyttäjää pyydetään asettamaan opintopistemäärä kyseiselle kurssille, jonka jälkeen käyttäjää ohjeistetaan ilmoittamaan hänen oma tavoiteaika kyseisen kurssin opiskelulle per. päivä.
 
@@ -15,7 +15,7 @@ Valitsemalla 3 käyttäjä käynnistää ajastimen ja aloittaa opintojen seurann
 
 Valitsemalla 4 käyttäjä lopettaa aloitetun seurannan ja saa tietoonsa sen prosentuaalisen etenemisen tavoitteeseensa nähden.
 
-Valitsemalla 5 käyttäjä saa mahdollisuuden valita alavalikossa "A", "B" tai "C" ja näkee opiskeluajoistaan tarkempaa dataa. Tosin tällä hetkellä vain opiskelun totaaliaikoja tietyin kriteerein.
+Valitsemalla 5 käyttäjä saa mahdollisuuden valita alavalikossa "A", "B" tai "C" ja näkee opiskeluajoistaan tarkempaa dataa. Nykyisessä versiossa opiskelija näkee totaaliaikojen lisäksi keskimääräisen opiskeluajan, mediaanin opiskeluajalle, sekä keskihajonnan opiskeluajalle. Tietyn kurssin tarkastelun valitessaan, opiskelija näkee lisäksi keskimääräisen opiskelun prosentuaalisen arvon suhteessa tavoiteaikaan per. viikonpäivä.
 
 Valitsemalla 6 ohjelma lopetetaan ja database suljetaan.
 
