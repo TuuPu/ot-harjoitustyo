@@ -31,6 +31,6 @@ tuntien suhteen.
 * Database tietojen tallentamista varten *tehty*
 * Statistinen esitys opiskeluista tekstikäyttöliittymässä *tehty*
 * Graafinen statistinen esitys opiskeluista *tehty*
-* Varoitus, jos opiskelumäärä ylittää 27 tuntia ja kehotus vapaa-ajan viettoon.
+* Varoitus, jos opiskelumäärä ylittää 27 tuntia ja kehotus vapaa-ajan viettoon. *tehty*
 * Tarkempi datan tarkastelu viikonpäivän ja ajankohdan perusteella. *tehty*
 * Mahdollisuus syöttää arvosana kurssin päätyttyä ja vertailla tuntimäärää arvosanan valossa.
