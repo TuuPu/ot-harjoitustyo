@@ -60,6 +60,26 @@ public class CourseTest {
         String asDouble=Double.toString(5.0);
         assertEquals(asDouble, Double.toString(newCourseTest.getPoints()));
     }
+    @Test
+    public void getSessionDay(){
+        LocalDateTime testNow = LocalDateTime.now();
+        DateTimeFormatter testDay = DateTimeFormatter.ofPattern("E");
+        String formatMidDay = testNow.format(testDay);
+        newCourseTest.setCourse("tira");
+        newCourseTest.startSession();
+        newCourseTest.stopSession();
+        assertEquals(formatMidDay, newCourseTest.getSessionDay());
+    }
+    @Test
+    public void getSessionDate(){
+        LocalDateTime testNow = LocalDateTime.now();
+        DateTimeFormatter testDate = DateTimeFormatter.ofPattern("dd.MM.YYYY");
+        String formatTestDate = testNow.format(testDate);
+        newCourseTest.setCourse("tira");
+        newCourseTest.startSession();
+        newCourseTest.stopSession();
+        assertEquals(formatTestDate, newCourseTest.getDate());
+    }
     
     @Test
     public void setGrade() {

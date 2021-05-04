@@ -9,10 +9,15 @@ import java.time.*;
 import java.time.format.*;
 import java.text.DecimalFormat;
 
+
 /**
  *
  * @author tuukkapuonti
  */
+
+   /**
+    * Luokka, jonka avulla pidetään kirjaa ja tietoja eri kursseista
+    */
 public class Course {
     
       
@@ -56,6 +61,14 @@ public class Course {
     String formatStopDay;
     String formatStopDate;
     String course;
+    
+    /**
+    * Konstruktori, joka pohjustaa kaikki tarvittavat globaalit muuttujat
+    * 
+    *
+    * 
+    * 
+    */
     
     public Course() {
         
@@ -120,6 +133,11 @@ public class Course {
         this.goalTime = goaltime;
     }
     
+   /**
+    * Metodi, joka asettaa ajastaminen käyntiin ja antaa muuttujille niiden arvot,
+    * muokkaa myös aikamuuttujat helpommin käytettävään double-muotoon
+    * 
+    */
     public void startSession() {
         this.startNow = LocalDateTime.now();
         this.startDay = DateTimeFormatter.ofPattern("E");
@@ -132,12 +150,14 @@ public class Course {
         this.startHour = Double.parseDouble(startValues[0]);
         this.startMinute = Double.parseDouble(startValues[1]);
         this.startSecond = Double.parseDouble(startValues[2]);
-    }
+    }   
     
-    public double getStartTimeAsValue() {
-        double timeOfStart = this.startHour + this.startMinute + this.startSecond;
-        return timeOfStart;
-    }
+   /**
+    * Metodi, joka pysäyttää ajastaminen  ja antaa muuttujille niiden arvot,
+    * muokkaa myös aikamuuttujat helpommin käytettävään double-muotoon ja
+    * lopuksi laskee ajastimen käyttämän ajan.
+    * 
+    */
     
     public void stopSession() {
         //keskiyön yli laskeminen myöhemmin
@@ -158,6 +178,7 @@ public class Course {
         this.studyTimeSession = this.sessionHour + this.sessionMinute;
     }
     
+    
     public double getSessionTime() {
         return this.studyTimeSession;
     }
@@ -166,11 +187,11 @@ public class Course {
         return this.formatStopDay;
     }
     
-    public double getStopTimeAsValue() {
-        double timeOfStop = this.stopHour + this.stopMinute + this.stopSecond;
-        return timeOfStop;
-    }
-    
+   /**
+    * Metodi, joka laskee suhteen yhdelle opiskelusessiolle vs. tavoiteaika
+    * 
+    * 
+    */
     private void calculateSessionVsGoal() {
         if (this.goalTime > 0.0) {
             this.percentage = (this.studyTimeSession / this.goalTime) * 100;
@@ -178,11 +199,16 @@ public class Course {
             this.percentage = 0;
         }
     }
+    
     public String getDate() {
         return this.formatStopDate;
     }
     
-    
+   /**
+    * Palauttaa prosenttimuodossa session aika/tavoiteaika. (Kutsuu sisällään
+    * calculateSessionVsGoal() metodia.
+    * 
+    */
     public String getSessionVsGoalPercentage() {
         this.calculateSessionVsGoal();
         return numberFormat.format(this.percentage);      

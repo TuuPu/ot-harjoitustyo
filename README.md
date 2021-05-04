@@ -7,13 +7,13 @@ Valmiissa versiossa sessiot otetaan talteen ja ne lajitellaan tietokantaan päiv
 
 ## Dokumentaatio
 
-[Vaativuusmäärittely](https://github.com/TuuPu/ot-harjoitustyo/blob/master/laskarit/dokumentaatio/vaativuusmaarittely.md)
+[Vaativuusmäärittely](https://github.com/TuuPu/ot-harjoitustyo/blob/master/dokumentaatio/vaativuusmaarittely.md)
 
-[Tuntikirjanpito](https://github.com/TuuPu/ot-harjoitustyo/blob/master/laskarit/dokumentaatio/tuntikirjanpito.md)
+[Tuntikirjanpito](https://github.com/TuuPu/ot-harjoitustyo/blob/master/dokumentaatio/tuntikirjanpito.md)
 
-[Käyttöohje](https://github.com/TuuPu/ot-harjoitustyo/blob/master/laskarit/dokumentaatio/kayttoohje.md)
+[Käyttöohje](https://github.com/TuuPu/ot-harjoitustyo/blob/master/dokumentaatio/kayttoohje.md)
 
-[Arkkitehtuuri](https://github.com/TuuPu/ot-harjoitustyo/blob/master/laskarit/dokumentaatio/arkkitehtuuri.md)
+[Arkkitehtuuri](https://github.com/TuuPu/ot-harjoitustyo/blob/master/dokumentaatio/arkkitehtuuri.md)
 
 ## Komentorivitoiminnot
 
@@ -34,6 +34,15 @@ Testikattavuuden luominen:
 ```
 mvn test jacoco:report
 ```
+## JavaDoc
+
+JavaDoc generoidaan komennolla:
+
+```
+mvn javadoc:javadoc
+```
+JavaDocia voi tarkastelemalla avaamalla selaimella tiedosto target/site/apidocs/index.html
+
 ## Suoritettavan jarin generoiminen
 
 Komento

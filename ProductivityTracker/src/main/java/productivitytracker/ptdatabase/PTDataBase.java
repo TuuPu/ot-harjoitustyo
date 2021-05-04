@@ -22,6 +22,10 @@ import java.io.File;
  *
  * @author tuukkapuonti
  */
+
+   /**
+    * Luokka, joka pitää tallessa tiedot opiskelluista kursseista
+    */
 public class PTDataBase {
     
     private Connection db = null;
@@ -38,17 +42,23 @@ public class PTDataBase {
     
     
     
-    
+    /**
+    * Kontstruktori luo tietokannan ja tarkistaa yhteyden.
+    * Konstruktorin boolean muuttujalla varmistetaan onko ohjelma käyttö-, vai testitilassa.
+    *
+    * @param   testDB   Annetaan ohjelman luojan toimesta
+    *
+    * 
+    */
     
     public PTDataBase(boolean testDB) throws SQLException {
         this.byDay = new LinkedHashMap<>();
         numberFormat = new DecimalFormat("0.00");
         try {
-            if(testDB){
+            if (testDB) {
                 this.db = DriverManager.getConnection("jdbc:sqlite:testDB.db");
-            }
-            else{
-            this.db = DriverManager.getConnection("jdbc:sqlite:productivitytracker.db");
+            } else {
+                this.db = DriverManager.getConnection("jdbc:sqlite:productivitytracker.db");
             }
             statement = db.createStatement();    
             setTables();
@@ -58,6 +68,11 @@ public class PTDataBase {
         }
     }
     
+    
+    /**
+    * Metodi luo tietokannan taulut valmiiksi käytettäväksi.
+    * 
+    */
     private void setTables() throws SQLException {       
         try {
             statement.execute("PRAGMA foreign_keys = ON");
@@ -69,6 +84,14 @@ public class PTDataBase {
         }
     }
     
+    /**
+    * Metodi hakee tietokannasta annetun kurssin perusteella opintopisteiden määrän.
+    * 
+    *
+    * @param   course   Käyttäjän antama kurssin nimi
+    *
+    * @return kurssien opintopisteet.
+    */
     public double getCoursePoints(String course)throws SQLException {
         PreparedStatement prepared;
         try {
@@ -80,6 +103,16 @@ public class PTDataBase {
         }
         return 0;
     }
+        /**
+        * Asettaa tietokantaan kurssin arvosanan. HUOM! Edellyttää, että kurssi
+        * on luotuna tietokantaan!
+        * 
+        *
+        * @param grade   Käyttäjän antama kurssin arvosana
+        * @param course  Käyttäjän antama kurssin nimi
+        *
+        * 
+        */
     
     public void setGrade(int grade, String course)throws SQLException {
         PreparedStatement prepared;
@@ -93,9 +126,18 @@ public class PTDataBase {
         }
     }
     
+        /**
+        * Metodi hakee kurssin arvosanan tietokannasta kurssin nimen perusteella
+        * 
+        *
+        * @param   course   Käyttäjän antama kurssin nimi
+        *
+        * @return kurssin arvosanan.
+        */
+    
     public int getGrade(String course) throws SQLException {
         PreparedStatement prepared;
-        try{
+        try {
             prepared = db.prepareStatement("SELECT Courses.grade FROM Courses WHERE Courses.course=?");
             prepared.setString(1, course);
             ResultSet res = prepared.executeQuery();
@@ -105,6 +147,35 @@ public class PTDataBase {
         }
         return 0;
     }
+    
+            /**
+        * Metodi hakee tietokannassa sijaitsevat viikonpäivät
+        * 
+        *
+        * @return list palauttaa ArrayList-muodossa viikonpäivät
+        */
+    
+    public ArrayList getWeekDays()throws SQLException {
+        PreparedStatement prepared;
+        ArrayList<String> list = new ArrayList<>();
+        try {
+            prepared = db.prepareStatement("SELECT Daily.dayOfWeek FROM Daily");
+            ResultSet res = prepared.executeQuery();
+            while (res.next()) {
+                list.add(res.getString("dayOfWeek"));
+            }
+        } catch (SQLException e) {
+            
+        }
+        return list;
+    }
+    
+            /**
+        * Metodi hakee tietokannassa sijaitsevat kurssit
+        * 
+        *
+        * @return list, joka sisältää kurssit.
+        */
     
     public ArrayList getCourses()throws SQLException {
         PreparedStatement prepared;
@@ -120,6 +191,34 @@ public class PTDataBase {
         }
         return list;
     }
+            /**
+        * Metodi hakee tietokannassa sijaitsevat päivämäärät
+        * 
+        *
+        * @return list, joka palauttaa päivämäärät
+        */
+    public ArrayList getDates()throws SQLException {
+        PreparedStatement prepared;
+        ArrayList<String> list = new ArrayList<>();
+        try {
+            prepared = db.prepareStatement("SELECT Daily.date FROM Daily");
+            ResultSet res = prepared.executeQuery();
+            while (res.next()) {
+                list.add(res.getString("date"));
+            }
+        } catch (SQLException e) {
+            
+        }
+        return list;
+    }
+            /**
+        * Metodi hakee tavoiteajan päivittäiselle opiskelulle
+        * 
+        *
+        * @param   course   Käyttäjän antama kurssin nimi
+        *
+        * @return tavoiteajan (double)
+        */
     
     public double getDailyGoal(String course)throws SQLException {
         PreparedStatement prepared;
@@ -134,6 +233,15 @@ public class PTDataBase {
         return 0;
     }
     
+        /**
+        * Asettaa tietokantaan kurssin, opintopistemäärän ja tavoiteajan
+        * 
+        *
+        * @param   course   Käyttäjän antama kurssin nimi
+        * @param goal Käyttäjän antama tavoiteaika
+        * @param points Käyttäjän antama opintopistemäärä
+        *
+        */
     public void setCoursePointsAndGoal(String course, double goal, double points)throws SQLException {
         PreparedStatement prepared;
         try {
@@ -143,9 +251,18 @@ public class PTDataBase {
             prepared.setDouble(3, points);
             prepared.executeUpdate();
         } catch (SQLException e) {
-            
         }
     }
+       /**
+        * Metodi hakee tietokannasta kurssin aiemmat opinnot (aika) 
+        * ja tallentaa tiedon globaaliin muuttujaan this.previousStudies.
+        * 
+        *
+        *@param   course   Käyttäjän antama kurssin nimi
+        *@param date Käyttäjän antama päivämäärä
+        * @param day Käyttäjän antama päivä
+        * @param sessionTime ohjelmalta saatava nykyisen session kesto
+        */
     
     public void getSessionTimeForDB(String date, String day, String course, double sessionTime)throws SQLException {
         PreparedStatement prepared;
@@ -164,6 +281,15 @@ public class PTDataBase {
         } catch (SQLException e) {
         }
     }
+       /**
+        * Metodi asettaa tietokantaan tiedon opiskeluajasta, joka yhdistetään kurssiin liittyviin muihin tietoihin.
+        * 
+        *
+        * @param   course   Käyttäjän antama kurssin nimi
+        *@param day Käyttäjän antama päivän nimi
+        * @param date Käyttäjän antama päivämäärä
+        * @param sessionTime ohjelmalta saatava opiskelusession pituus      
+        */
     
     public void setDailyTime(String date, String day, String course, double sessionTime)throws SQLException {
         PreparedStatement prepared;
@@ -187,6 +313,14 @@ public class PTDataBase {
         } catch (SQLException e) {         
         }
     }
+       /**
+        * Palauttaa listan muodossa tiedon opiskeluajoista per. viikonpäivä
+        * 
+        *
+        * @param   day   Käyttäjän antama päivän nimi
+        *
+        * @return list, joka sisältää opiskeluajat.
+        */
     
     public ArrayList getTimeListByDay(String day)throws SQLException {
         ArrayList<Double> dayList = new ArrayList<Double>();
@@ -203,7 +337,14 @@ public class PTDataBase {
         }
         return dayList;
     }
-    
+         /**
+        * Palauttaa listan muodossa tiedon opiskeluajoista per. päivämäärä
+        * 
+        *
+        * @param   date   Käyttäjän antama päivämäärä
+        *
+        * @return list, joka sisältää opiskeluajat.
+        */
     public ArrayList getTimeListByDate(String date)throws SQLException {
         ArrayList<Double> dateList = new ArrayList<Double>();
         PreparedStatement prepared;
@@ -219,7 +360,15 @@ public class PTDataBase {
         }
         return dateList;
     }
-    
+       /**
+        * Palauttaa listan muodossa tiedon opiskeluajoista päivän ja kurssin perusteella
+        * 
+        *
+        * @param   day   Käyttäjän antama päivän nimi.
+        * @param course Käyttäjän antama kurssin nimi.
+        *
+        * @return list, joka sisältää opiskeluajat.
+        */
     public DescriptiveStatistics getTimeByDayAndCourse(String day, String course)throws SQLException {
         DescriptiveStatistics dayStatistics = new DescriptiveStatistics();
         PreparedStatement prepared;
@@ -237,7 +386,14 @@ public class PTDataBase {
         }
         return dayStatistics;
     }
-    
+       /**
+        * Palauttaa listan muodossa tiedon opiskeluajoista per. kurssi
+        * 
+        *
+        * @param   course   Käyttäjän antama kurssin nimi
+        *
+        * @return list, joka sisältää opiskeluajat.
+        */
     
     public ArrayList getTimeListByCourse(String course)throws SQLException {
         ArrayList<Double> courseList = new ArrayList<Double>();
@@ -254,6 +410,14 @@ public class PTDataBase {
         }
         return courseList;
     }
+       /**
+        * Palauttaa opiskeluaikojen summan kurssin nimen perusteella
+        * 
+        *
+        * @param   course   Käyttäjän antama kurssin nimi
+        *
+        * @return total, double joka on kaikkien opintosessioiden summa tietylle kurssille.
+        */
     
     public double getStudyTimesByCourse(String course)throws SQLException {
         double total = 0;
@@ -270,7 +434,14 @@ public class PTDataBase {
         }
         return total;
     }
-    
+    /**
+        * Palauttaa opiskeluaikojen summan päivän nimen perusteella
+        * 
+        *
+        * @param   day   Käyttäjän antama päivän nimi
+        *
+        * @return total, double joka on kaikkien opintosessioiden summa tietylle päivälle.
+        */
     public double getStudyTimeByDay(String day)throws SQLException {
         PreparedStatement prepared;
         double total = 0;
@@ -286,6 +457,14 @@ public class PTDataBase {
         }
         return total;
     }
+    /**
+        * Palauttaa opiskeluaikojen summan päivämäärän perusteella
+        * 
+        *
+        * @param   date   Käyttäjän antama päivämäärä
+        *
+        * @return total, double joka on kaikkien opintosessioiden summa tietylle päivämäärälle.
+        */
     
     public double getStudyTimeByDate(String date)throws SQLException {
         PreparedStatement prepared;
@@ -303,14 +482,24 @@ public class PTDataBase {
         }
         return total;
     }
-       
+       /**
+        * Sulkee tietokannan kutsuttaessa
+        * 
+        *
+        */
     public void close()throws SQLException {
         try {
             db.close();
         } catch (SQLException e) {           
         }
     }
-    
+    /**
+        * Poistaa tietokannan (testitietokannan)
+        * 
+
+        *
+        * @return true/false, riippuen onnistuuko tietokannan poisto.
+        */
     public boolean deleteDb() throws SQLException {
         try {
             Statement stmt = db.createStatement();

@@ -11,9 +11,13 @@ import java.sql.SQLException;
  *
  * @author tuukkapuonti
  */
+
+   /**
+    * Main-luokka, joka kutsuu käyttöliittymäluokan ilmentymää ja käynnistää ohjelman.
+    */
 public class Main {
     public static void main(String[] args)throws SQLException {
         UserInterface ui = new UserInterface();
-        ui.launch();
+        ui.main(args);
     }
 }

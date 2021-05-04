@@ -23,6 +23,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.*;
+import java.util.ArrayList;
 
 /**
  *
@@ -83,6 +84,52 @@ public class DataBaseTest {
         assertEquals(1,0, baseTest.getStudyTimeByDay("Mon"));
         assertEquals(1,0, baseTest.getStudyTimesByCourse("tira"));
     }
+    
+    @Test
+    public void getWeekdaysTest() throws SQLException {
+        baseTest.setCoursePointsAndGoal("tira", 0, 0);
+        baseTest.setDailyTime("01.05.2021", "Mon", "tira", 0);
+        ArrayList<String> weekday = new ArrayList<>();
+        weekday.add("Mon");
+        assertEquals(weekday, baseTest.getWeekDays());
+    }
+    
+    @Test
+    public void getDateTest() throws SQLException {
+        baseTest.setCoursePointsAndGoal("tira", 0, 0);
+        baseTest.setDailyTime("01.05.2021", "Mon", "tira", 0);
+        ArrayList<String> date = new ArrayList<>();
+        date.add("01.05.2021");
+        assertEquals(date, baseTest.getDates());
+    }
+    
+    @Test
+    public void getTimeListByDayTest() throws SQLException{
+        baseTest.setCoursePointsAndGoal("tira",0,0);
+        baseTest.setDailyTime("01.05.2021", "Mon", "tira", 1.0);
+        ArrayList<Double> time = new ArrayList<>();
+        time.add(1.0);
+        assertEquals(time, baseTest.getTimeListByDay("Mon"));
+    }
+    
+    @Test
+    public void getTimeListByDateTest() throws SQLException{
+        baseTest.setCoursePointsAndGoal("tira",0,0);
+        baseTest.setDailyTime("01.05.2021", "Mon", "tira", 1.0);
+        ArrayList<Double> time = new ArrayList<>();
+        time.add(1.0);
+        assertEquals(time, baseTest.getTimeListByDate("01.05.2021"));
+    }
+    
+    @Test
+    public void getTimeListByCourseTest() throws SQLException{
+        baseTest.setCoursePointsAndGoal("tira",0,0);
+        baseTest.setDailyTime("01.05.2021", "Mon", "tira", 1.0);
+        ArrayList<Double> time = new ArrayList<>();
+        time.add(1.0);
+        assertEquals(time, baseTest.getTimeListByCourse("tira"));
+    }
+            
     
     
 }

@@ -16,6 +16,10 @@ import java.util.*;
  *
  * @author tuukkapuonti
  */
+
+   /**
+    * Luokka, jonka avulla voidaan suorittaa statistista laskentaa.
+    */
 public class Statistics {
     PTDataBase data;
     private double mean;
@@ -26,7 +30,11 @@ public class Statistics {
     private ArrayList<String> dayList;
    
 
-    
+   /**
+    * Konstruktori, joka pohjustaa arvot käytettäväksi luokalle.
+    * @param courseData, hyödyntää tietokanta-luokkaa toiminnassaan.
+    * 
+    */
     public Statistics(PTDataBase courseData)throws SQLException {
         this.dayList = new ArrayList<String>();
         this.dayList.add("Mon");
@@ -42,8 +50,13 @@ public class Statistics {
         this.median = 0.0;
         this.total = 0.0;
     }
-    
-    //Jaa kahteen metodiin? Listan kasaus ja palautus metodille calulcateMean?
+   /**
+    * Metodi, joka laskee keskiarvon opiskeluille tietyin parametrein
+    * 
+    * @param type, kertoo mitä halutaan inputiksi (kurssi, päivä tai päivämäärä)
+    * @param identifier, kertoo metodille mihin ehtolauseeseen mennä: 0=kurssi, 1=päivä, 2=päivämäärä
+    * @return stats.getMean(), eli keskiarvo annetuilla tiedoilla.
+    */
     public double getMean(String type, int identifier)throws SQLException {
         ArrayList<Double> list = new ArrayList<Double>();       
         try {
@@ -67,6 +80,13 @@ public class Statistics {
         return 0.0;
     }
     
+   /**
+    * Metodi, joka laskee keskihajonnan opiskeluille tietyin parametrein
+    * 
+    * @param type, kertoo mitä halutaan inputiksi (kurssi, päivä tai päivämäärä)
+    * @param identifier, kertoo metodille mihin ehtolauseeseen mennä: 0=kurssi, 1=päivä, 2=päivämäärä
+    * @return stats.getSandardDeviation(), eli keskihajonna annetuilla tiedoilla.
+    */
     public double getSTD(String type, int identifier)throws SQLException {
         ArrayList<Double> list = new ArrayList<Double>();
         try {
@@ -89,6 +109,14 @@ public class Statistics {
         }
         return 0.0;
     }
+    
+   /**
+    * Metodi, joka laskee mediaanin opiskeluille tietyin parametrein
+    * 
+    * @param type, kertoo mitä halutaan inputiksi (kurssi, päivä tai päivämäärä)
+    * @param identifier, kertoo metodille mihin ehtolauseeseen mennä: 0=kurssi, 1=päivä, 2=päivämäärä
+    * @return stats.getMedian(), eli mediaanin annetuilla tiedoilla.
+    */
     
     public double getMedian(String type, int identifier)throws SQLException {
         ArrayList<Double> list = new ArrayList<Double>();
@@ -113,7 +141,13 @@ public class Statistics {
         }
         return 0.0;
     }
-    
+    /**
+    * Metodi, joka laskee kokonaisajan opiskeluille tietyin parametrein
+    * 
+    * @param type, kertoo mitä halutaan inputiksi (kurssi, päivä tai päivämäärä)
+    * @param identifier, kertoo metodille mihin ehtolauseeseen mennä: 0=kurssi, 1=päivä, 2=päivämäärä
+    * @return palauttaa käytettyjen parametrien perusteella täyden opiskeluajan.
+    */
     public double getTotal(String type, int identifier)throws SQLException {
         try {
             if (identifier == 0) {
@@ -129,7 +163,19 @@ public class Statistics {
         }
         return 0.0;
     }
+    /*
+    public HashMap totalVsGrade(){
+        HashMap<String, Double> gradeList = new HashMap<>();
+        
+    }
+    */
     
+    
+    /**
+    * Metodi, joka palauttaa listana totaaliajan opiskeluista per. päivä
+    * 
+    * @return ArrayList
+    */
     public LinkedHashMap getTotalHoursPerDay()throws SQLException {
         LinkedHashMap<String, Double> perDay = new LinkedHashMap<String, Double>();
         try {
@@ -142,6 +188,38 @@ public class Statistics {
         }
         return perDay;
     }
+   /**
+    * Metodi, joka tarkistaa onko opiskelluista sessioista kertyvä aika yli
+    * suosituksen per. opintopiste (27 tuntia)
+    * 
+    * @param course käyttäjän antama kurssi
+    * @return boolean, riippuen onko opiskelusessioiden summa jaettuna opinto-
+    * pisteiden määrällä yli 27.
+    */
+    public boolean isOverLimit(String course) throws SQLException {
+        double session = 0;
+        double coursePoints = 0; 
+        double total = 0;
+        try {
+            session = data.getStudyTimesByCourse(course);
+            coursePoints = data.getCoursePoints(course);
+            total = session / coursePoints;
+        } catch (SQLException e) {
+            
+        }
+        if (total >= 27) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+   /**
+    * Metodi, joka laskee suhteen keskimääräisen opiskelusession keston ja tavoiteajan välillä
+    * 
+    * @param course, Käyttäjän antama tieto kurssista, jolle lasku halutaan tehdä
+    * @return HashMap, joka kertoo per. viikonpäivä suhteen keskimääräisen opiskelun ja tavoiteajan välillä.
+    */
     
     public LinkedHashMap getAvgStudyAgainstGoal(String course)throws SQLException {
         double goalTime = 0;

@@ -10,6 +10,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import java.sql.*;
 
 /**
  *
@@ -17,7 +18,8 @@ import static org.junit.Assert.*;
  */
 public class UiTest {
     UserInterface uiTest;
-    public UiTest() {
+    
+    public UiTest() throws SQLException {
         uiTest=new UserInterface();
     }
     
