@@ -27,11 +27,10 @@ tuntien suhteen.
 
 ## Jatkokehitys
 
-* Graafinen käyttöliittymä.
+* Graafinen käyttöliittymä. *tehty*
 * Database tietojen tallentamista varten *tehty*
-* Mahdollinen sisäänkirjautuminen.
 * Statistinen esitys opiskeluista tekstikäyttöliittymässä *tehty*
-* Graafinen statistinen esitys opiskeluista ja vertailu keskimääräiseen opiskeluaikaan (1 op ~27 tuntia).
+* Graafinen statistinen esitys opiskeluista *tehty*
 * Varoitus, jos opiskelumäärä ylittää 27 tuntia ja kehotus vapaa-ajan viettoon.
 * Tarkempi datan tarkastelu viikonpäivän ja ajankohdan perusteella. *tehty*
 * Mahdollisuus syöttää arvosana kurssin päätyttyä ja vertailla tuntimäärää arvosanan valossa.

@@ -65,3 +65,13 @@ Kuvaus tulee vielä muuttumaan hieman viimeisessä palautuksessa, koska pakettie
 ## Luokkakaavio
 
 ![alt text](https://github.com/TuuPu/ot-harjoitustyo/blob/master/dokumentaatio/kuvat/Screenshot%202021-05-04%20at%2016.40.57.png)
+
+## Ohjelman rakenteeseen jääneet heikkoudet
+
+### kolmen kerroksen arkkitehtuuri
+
+Järkevin ratkaisu olisi ollut rakentaa koko ohjelma ui -> service -> logic rakenteella, nyt loppupalautus tulee olemaan kaksitasoinen ui -> service tyylinen. Tämä rakenteellinen puutos johtui siitä, että rakensin pakkaukset suoraan productivitytracker pakkauksen alle aluksi. Kiireen vuoksi en ymmärtänyt tai ehtinyt tarkastella järkevämpää sovelluksen rakennetta ja se jäi puutteelliseksi. Viimeisen viikon muutos pyrkii korjaamaan tätä virhettä edes hieman.
+
+### Metodit
+
+Metodit olisivat voineet olla pilkottuna vieläkin suurempiin paloihin ja tähänkin olisi auttanut kolmitasoinen rakenne. Nyt osa luokkien metodeista hoitaa paria asiaa kerralla. Mutta olen pyrkinyt minimoimaan näitä metodeita. Esimerkiksi Statistics luokassa getterit hakevat tiedot ja laskevat suoraan esimerkiksi keskiarvon. Samalla tavalla tietokanta-luokan metodit saattavat hakea tietoa ja tehdä kevyen laskun ja asettaa tiedot valmiiseen hajautustauluun tai listaan.

@@ -15,5 +15,11 @@ Päivä | aika | aktiviteetti
 25.04 | 6 | Statistiikkaluokan toiminnallisuuksien ohjelmointia
 26.04 | 3 | Tietokanta-luokan ja statistiikka-luokan keskenäisen toiminnan ohjelmointi
 27.04 | 3 | UI:n päivitys hyödyntämään statistiikkaluokkaa laskuissa tietokannan ja kurssi-luokan sijaan.
+28.04 | 5 | JavaFX tutustuminen ja kartoittaminen tarvittavista työkaluista
+29.04 | 6 | käyttöliittymän koodausta
+01.05 | 3 | käyttöliittymän koodausta
+02.05 | 3 | käyttöliittymän koodausta
+03.05 | 6.5 | käyttöliittymän koodausta + dokumentaation korjailua
+04.05 | 4 | javaDoc, Checkstyle, testit ja pientä koodailua päälle
 ----- | --- | --------------
-total | 51.5 |
+total | 78.5 |
