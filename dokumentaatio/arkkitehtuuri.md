@@ -2,9 +2,9 @@
 
 ## Rakenne
 
-Ohjelman rakenne noudattaa kaksitasoista kerrosarkkitehtuuria. Toistaiseksi pakkaus productivitytracker.ui kutsuu pakkauksia productivitytracker.course, productivitytracker.statistics ja productivitytracker.ptdatabase, mutta viimeisessä julkaisussa edellämainitut kolme pakkausta on tarkoitus asettaa kaikki pakkauksen productivitytracker.service alle.
+Ohjelman rakenne noudattaa kaksitasoista kerrosarkkitehtuuria. Luokka UserInterface kutsuu Service-luokkaa, joka toimii toiminnallisuus-yksikkönä muille luokille, jotka ovat PTDataBase, Course ja Statistics. Siis Service luokka kasaa kaikkien luokkien toiminnallisuuden yhteen, jotta käyttöliittymässä toiminnallisuuksien käsittely olisi suoraviivaisempaa.
 
-Pakkaus productivitytracker.ui sisältää JavaFX:llä luodun käyttöliittymän, joka vastaa käyttäjän kanssa kommunikoinnista. productivitytracker.ptdatabase sisältää tietokannan ja tietojen pysyväistallennuksen, ja productivitytracker.course, sekä producitivitytracker.statistics sovelluksen logiikasta vastaavia osia.
+Pakkaus productivitytracker.ui sisältää JavaFX:llä luodun käyttöliittymän, joka vastaa käyttäjän kanssa kommunikoinnista. productivitytracker.ptdatabase sisältää tietokannan ja tietojen pysyväistallennuksen, ja productivitytracker.course, sekä producitivitytracker.statistics sovelluksen logiikasta vastaavia osia. Service kokoaa sekä pysyväistallennuksen ja loogisen osan ohjelmasta yhteen.
 
 ## Käyttöliittymä
 
@@ -20,17 +20,14 @@ Käyttöliittymä sisältää neljä erilaista näkymää:
 
 Jokainen näistä on toteutettu omana Scene-oliona ja näkymät ovat yksi kerrallaan esillä.
 
-Käyttöliittymä sisältää toistaiseksi joitain sovelluslogiikan osia, kuten mm. metodin loadClasses(). Nämä on tarkoitus siirtää viimeisellä viikolla, ennen lopullista julkaisua Service-nimiseen luokkaan selkeytyksen vuoksi.
 
 
 ## Sovelluslogiikka
 
 Sovelluksen logiikka pohjautuu Course, Statistics ja PTDatabase luokkien yhteistoimintaan, jossa Course kuvaa eri opiskeltavien kurssien ilmentymiä, joilla on tiedot. PTDatabase tallentaa nämä tiedot ja Statistics käsittelee niitä matemaattisin keinoin.
 
-Toistaiseksi jokaista oliota kutsutaan tarvittaessa käyttöliittymän sisällä, mutta kuten aiemmin mainittu, niiden metodit on tarkoitus kasata yhteen Service-luokkaan, jonka avulla logiikka saadaan keskitettyä yhteen luokkaan. Tulevat Service-luokan metodit ovat vastaavia, kun luokkien omat metodit, kuten:
+Kaikki yllämainitut luokat ovat koottu yhteen Service-luokan alle, jossa niiden metodeja kutsutaan ja yhdistellään. Näin saadaan koko sovelluslogiikka "yksien kirjojen" alle ja sen käyttö on yksinkertaisempaa.
 
-* getMean(String type, int identifier) <- type esim. "tira" ja identifier 0. Tällä metodi tietää hakea kurssin tira tietoja.
-* setPoints(String course) <- asettaa valitulle kurssille opintopisteet
 
 ## Tietojen pysyväistallennus
 
@@ -56,15 +53,11 @@ Tauluissa on varmistettu, että käyttäjä ei voi jättää syöttämättä kri
 
 ## Päätoiminnallisuudet
 
-Alla on luokkakaavio pääpiirteisesti ohjelman osien suhteista ja kuvaus opiskelusession aloittamisesta sekvenssikaavion muodossa.
-Huomioitavaa tässä on se, että kurssi, jonka opiskelusessio aloitetaan on pitänyt ensin syöttää ohjelmalle tietoineen. Eli nykyinen opiskeltava kurssi on siis luokan Course tiedossa. Session loppuessa ne siirretään PTDataBase-luokan tietoihin. Tämän takia aivan oikeassa alakulmassa olevat getterit kurssin ja tietokannan välillä voivat vaikuttaa ensisilmäykseltä hieman oudoilta.
-Kuvaus tulee vielä muuttumaan hieman viimeisessä palautuksessa, koska pakettien rakenne tulee vielä hieman muuttumaan.
-
-![alt text](https://github.com/TuuPu/ot-harjoitustyo/blob/master/dokumentaatio/kuvat/Screenshot%202021-04-27%20at%2019.06.10.png)
+Alla on luokkakaavio pääpiirteisesti ohjelman osien suhteista. Päätoiminnallisuuden ideana on se, että ui-luokka kutsuu Service-luokkaa tarvittaessa, joka tarjoaa metodit jokaisen logiikasta vastaavan luokan toiminnallisuuksiin. Pyrkimyksenä on käyttää kursseista vastaavaa luokkaa vain silloin, jos uusi kurssi luodaan. Muutoin kaikki toiminnalisuudet tapahtuvat tietokannan, statistiikan ja service-luokan välillä. 
 
 ## Luokkakaavio
 
-![alt text](https://github.com/TuuPu/ot-harjoitustyo/blob/master/dokumentaatio/kuvat/Screenshot%202021-05-04%20at%2016.40.57.png)
+![alt text](https://github.com/TuuPu/ot-harjoitustyo/blob/master/dokumentaatio/kuvat/uusiLuokka.png)
 
 ## Ohjelman rakenteeseen jääneet heikkoudet
 
