@@ -24,13 +24,17 @@ tuntien suhteen.
 * Tuntitavoitteen asettaminen ja ilmoitus kuinka paljon tavoitteesta ollaan
   jäljessä. *tehty*
 * Tekstikäyttöliittymä. *tehty*
+* Graafinen käyttöliittymä *tehty*
+* Tietokanta tietojen tallentamista varten *tehty*
+* Graafinen statistinen esityts opiskeluista *tehty*
+* Varoitus, jos opiskelumäärä ylittää 27 tuntia ja kehotus vapaa-ajan viettoon. *tehty*
+* Tarkempi datan tarkastelu viikonpäivän ja ajankohdan perusteella *tehty*
+* Mahdollisuus syöttää arvosana kurssin päätytyyä ja vertailla tuntimäärää arvosanan valossa. *tehty
+
 
 ## Jatkokehitys
 
-* Graafinen käyttöliittymä. *tehty*
-* Database tietojen tallentamista varten *tehty*
-* Statistinen esitys opiskeluista tekstikäyttöliittymässä *tehty*
-* Graafinen statistinen esitys opiskeluista *tehty*
-* Varoitus, jos opiskelumäärä ylittää 27 tuntia ja kehotus vapaa-ajan viettoon. *tehty*
-* Tarkempi datan tarkastelu viikonpäivän ja ajankohdan perusteella. *tehty*
-* Mahdollisuus syöttää arvosana kurssin päätyttyä ja vertailla tuntimäärää arvosanan valossa.
+* Sisäänkirjautuminen
+* Reaaliaikaisesti päivittyvä data
+* Reaaliaikaiseen dataan liittyvä animoitu esitys esimerkiksi session etenemisestä suhteessa tavoiteaikaan.
+* Hienojakoisempi rakenne ohjelmaan.
