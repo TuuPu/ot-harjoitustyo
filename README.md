@@ -68,4 +68,6 @@ Generoidun raportin löydät hakemistosta target/site/checkstyle.html
 
 Viidennen viikon releasen löydät [Tästä](https://github.com/TuuPu/ot-harjoitustyo/releases/tag/Viikko5) linkistä.
 
-Kuudennen viikone releasen löydät [Tästä](https://github.com/TuuPu/ot-harjoitustyo/releases/tag/viikko6) linkistä.
+Kuudennen viikon releasen löydät [Tästä](https://github.com/TuuPu/ot-harjoitustyo/releases/tag/viikko6) linkistä.
+
+Loppupalautuksen releasen löydät [Tästä](https://github.com/TuuPu/ot-harjoitustyo/releases/tag/loppupalautus) linkistä.
