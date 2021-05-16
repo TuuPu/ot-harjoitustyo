@@ -21,5 +21,9 @@ Päivä | aika | aktiviteetti
 02.05 | 3 | käyttöliittymän koodausta
 03.05 | 6.5 | käyttöliittymän koodausta + dokumentaation korjailua
 04.05 | 4 | javaDoc, Checkstyle, testit ja pientä koodailua päälle
+12.05 | 6 | Service-luokan luontia
+13.05 | 5 | Service-luokan viimeistelyä ja muiden luokkien fiksailua
+14.05 | 6 | Ui-luokan uudelleenjärjestys käyttäen serviceä apuna, viimeisen statistisen esityksen luonti
+16.05 | 5 | Repon viimeistely ja muut loppupalautukseen liittyvät toimenpiteet.
 ----- | --- | --------------
-total | 78.5 |
+total | 100.5 |
