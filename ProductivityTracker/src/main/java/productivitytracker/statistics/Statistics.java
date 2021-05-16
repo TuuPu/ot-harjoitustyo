@@ -28,6 +28,7 @@ public class Statistics {
     private double total;
     private DecimalFormat formatter;
     private ArrayList<String> dayList;
+    private ArrayList<Integer> gradeList;
    
 
    /**
@@ -37,6 +38,7 @@ public class Statistics {
     */
     public Statistics(PTDataBase courseData)throws SQLException {
         this.dayList = new ArrayList<String>();
+        this.gradeList = new ArrayList<Integer>();
         this.dayList.add("Mon");
         this.dayList.add("Tue");
         this.dayList.add("Wed");
@@ -44,6 +46,11 @@ public class Statistics {
         this.dayList.add("Fri");
         this.dayList.add("Sat");
         this.dayList.add("Sun");  
+        this.gradeList.add(1);
+        this.gradeList.add(2);
+        this.gradeList.add(3);
+        this.gradeList.add(4);
+        this.gradeList.add(5);
         this.data = courseData;
         this.mean = 0.0;
         this.std = 0.0;
@@ -188,6 +195,20 @@ public class Statistics {
         }
         return perDay;
     }
+    
+    public HashMap getTotalHoursByGrade() throws SQLException {
+        HashMap<String, Integer> gradeMap=data.getCoursesWithGrades();
+        HashMap<Integer, Double> gradeTime=new HashMap<>();
+        for(String name : gradeMap.keySet()){
+            gradeTime.put(gradeMap.get(name),0.0);
+        }
+        for(String name : gradeMap.keySet()){
+            //double total=data.getStudyTimesByCourse(name);
+            gradeTime.put(gradeMap.get(name), (gradeTime.get(gradeMap.get(name)) + data.getStudyTimesByCourse(name)));
+        }
+        return gradeTime;
+    }
+
    /**
     * Metodi, joka tarkistaa onko opiskelluista sessioista kertyvä aika yli
     * suosituksen per. opintopiste (27 tuntia)

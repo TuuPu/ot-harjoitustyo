@@ -1,3 +1,5 @@
+package pttests;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -24,6 +26,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.*;
 import java.util.ArrayList;
+import productivitytracker.statistics.Statistics;
+import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
+import java.util.*;
 
 /**
  *
@@ -31,6 +36,7 @@ import java.util.ArrayList;
  */
 public class DataBaseTest {
     private PTDataBase baseTest;
+    
     
     public DataBaseTest() {
     }
@@ -47,6 +53,7 @@ public class DataBaseTest {
     @Before
     public void setUp() throws SQLException {
         this.baseTest = new PTDataBase(true);
+        
     }
     
     @After
@@ -128,6 +135,39 @@ public class DataBaseTest {
         ArrayList<Double> time = new ArrayList<>();
         time.add(1.0);
         assertEquals(time, baseTest.getTimeListByCourse("tira"));
+    }
+    
+    @Test
+    public void getSessionTimeTest() throws SQLException {
+        baseTest.setCoursePointsAndGoal("tira", 5, 5);
+        baseTest.getSessionTimeForDB("01.01.2021", "Mon", "tira", 0);
+        baseTest.setDailyTime("01.01.2021", "Mon", "tira", 5);
+        assertEquals(5, (int)baseTest.getStudyTimesByCourse("tira"));
+    }
+    
+    @Test
+    public void setAndGetGrade() throws SQLException {
+        baseTest.setCoursePointsAndGoal("tira", 5, 5);      
+        assertEquals(0, baseTest.getGrade("tira"));
+        baseTest.setGrade(5, "tira");
+        assertEquals(5, baseTest.getGrade("tira"));
+        ArrayList<Integer> list = new ArrayList();
+        list.add(5);
+        assertEquals(list, baseTest.getGrades());
+        baseTest.setCoursePointsAndGoal("Ohte", 5, 5);
+        ArrayList<String> noGrade = new ArrayList();
+        noGrade.add("Ohte");
+        assertEquals(noGrade, baseTest.getCoursesNoGrades());
+        HashMap<String, Integer> grade = new HashMap<>();
+        grade.put("tira", 5);
+        assertEquals(grade, baseTest.getCoursesWithGrades());
+        
+    }
+    
+    @Test
+    public void getCourseTest() throws SQLException{
+        baseTest.setCoursePointsAndGoal("tira", 5, 5);
+        assertEquals("tira", baseTest.getCourse("tira"));
     }
             
     

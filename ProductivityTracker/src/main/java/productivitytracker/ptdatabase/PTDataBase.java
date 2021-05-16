@@ -174,6 +174,53 @@ public class PTDataBase {
         }
         return list;
     }
+    
+    public ArrayList getGrades()throws SQLException {
+        PreparedStatement prepared;
+        ArrayList<Integer> list = new ArrayList<>();
+        try {
+            prepared = db.prepareStatement("SELECT Courses.grade FROM Courses");
+            ResultSet res = prepared.executeQuery();
+            while(res.next()) {
+                list.add(res.getInt("grade"));
+            }
+        } catch (SQLException e){
+           
+        }
+        return list;
+    }
+
+    
+    public ArrayList getCoursesNoGrades()throws SQLException {
+        PreparedStatement prepared;
+        ArrayList<String> list = new ArrayList<>();
+        try{
+            prepared = db.prepareStatement("SELECT Courses.course FROM Courses WHERE Courses.grade IS NULL");
+            ResultSet res = prepared.executeQuery();
+            while (res.next()) {
+                list.add(res.getString("course"));
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return list;
+    }
+    
+    public ArrayList getGradesByCourse(String name) throws SQLException {
+        PreparedStatement prepared;
+        ArrayList<Integer> list = new ArrayList<>();
+        try {
+            prepared = db.prepareStatement("SELECT Courses.grade FROM Coursese WHERE Courses.course=? AND Courses.grade>0");
+            prepared.setString(1, name);
+            ResultSet res = prepared.executeQuery();
+            while (res.next()){
+                list.add(res.getInt("grade"));
+            }
+        } catch (SQLException e) {
+            
+        }
+        return list;       
+    }
             /**
         * Metodi hakee tietokannassa sijaitsevat päivämäärät
         * 
@@ -408,6 +455,38 @@ public class PTDataBase {
         } catch (SQLException e) {           
         }
         return total;
+    }
+    
+
+    
+    public HashMap getCoursesWithGrades() throws SQLException {
+        PreparedStatement prepared;
+        HashMap<String, Integer> list = new HashMap<>();
+        try{
+            prepared = db.prepareStatement("SELECT Courses.course, Courses.grade FROM Courses WHERE Courses.grade BETWEEN 1 AND 5");
+            ResultSet res = prepared.executeQuery();
+            while(res.next()){
+                list.put(res.getString("course"), res.getInt("grade"));
+            }
+        } catch (SQLException e) {
+            
+        }
+        return list;
+    }
+    
+  
+    
+    public String getCourse(String name)throws SQLException{
+        PreparedStatement prepared;
+        try{
+            prepared = db.prepareStatement("SELECT Courses.course FROM Courses WHERE Courses.course=?");
+            prepared.setString(1, name);
+            ResultSet res = prepared.executeQuery();
+            return res.getString("course");
+        } catch (SQLException e){
+            
+        }
+        return "";
     }
     /**
         * Palauttaa opiskeluaikojen summan päivän nimen perusteella

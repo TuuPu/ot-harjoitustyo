@@ -9,6 +9,7 @@ import java.util.*;
 import productivitytracker.course.Course;
 import productivitytracker.ptdatabase.PTDataBase;
 import productivitytracker.statistics.Statistics;
+import service.Service;
 import java.text.DecimalFormat;
 
 import java.io.IOException;
@@ -47,9 +48,6 @@ import javafx.scene.layout.TilePane;
     */
 public class UserInterface extends Application {
     
-    Course currentCourse;
-    PTDataBase base;
-    Statistics data;
     HashMap<String, Course> courseMap;
     String currentCourseName;
     String choice;
@@ -61,7 +59,8 @@ public class UserInterface extends Application {
     ArrayList<String> courseList;
     boolean timerOn;
     Timer timer;
-    ArrayList<String> dayList;
+    
+    Service s;
     
     /**
     * Konstruktori, joka alustaa tarvittavat muuttujat
@@ -78,48 +77,23 @@ public class UserInterface extends Application {
         
         
     }
-        //serviceen!
     
     /**
     * Metodi, joka kutsuu Course-luokan ja databasen informaatioita aiempien opiskelu-
     * sessioiden latausta varten.
     * @param base, tietokantaluokan ilmentymä
     */
-        public void loadClasses(PTDataBase base)throws SQLException {
-        String courseName = "";
-        try {
-            for (int i = 0; i < base.getCourses().size(); i++) {
-                courseName = base.getCourses().get(i).toString();
-                Course tempCourse = new Course();
-                this.courseMap.put(courseName, tempCourse);
-                tempCourse.setCourse(courseName);
-                tempCourse.setDailyGoal(base.getDailyGoal(courseName));
-                tempCourse.setPoints(base.getCoursePoints(courseName));
-            }
-        } catch (SQLException e) {
-            
-        }
-    }
+    
     
     @Override
     public void start(Stage primaryStage) throws SQLException {
-        //SERVICEEN
-        this.dayList = new ArrayList<String>();
-        this.dayList.add("Mon");
-        this.dayList.add("Tue");
-        this.dayList.add("Wed");
-        this.dayList.add("Thu");
-        this.dayList.add("Fri");
-        this.dayList.add("Sat");
-        this.dayList.add("Sun");
-        //SERVICEEN
+
         stage = primaryStage;
         Scene scene = generalView();       
         primaryStage.setScene(scene);
         primaryStage.show();
-        base=new PTDataBase(false);
-        data=new Statistics(base);
-        loadClasses(base);      
+        s = new Service();
+    
     }
     
    /**
@@ -147,11 +121,12 @@ public class UserInterface extends Application {
             this.timerOn=false;
             }
             try {
-            base.close();
+            s.dataClose();
             } catch (SQLException ex){
                 Text closefail = new Text("Failed to close database");
                 layout.getChildren().add(closefail);
             }
+            stage.close();
             javafx.application.Platform.exit();
         });
         
@@ -218,9 +193,9 @@ public class UserInterface extends Application {
         dayTotalData.setName("Study session totals per. weekday");
         
         try{
-        for(int i=0;i<this.dayList.size();i++){
-            String day=this.dayList.get(i).toString();
-            double total=(double)data.getTotalHoursPerDay().get(day);
+        for(int i=0;i<s.days().size();i++){
+            String day=s.days().get(i).toString();
+            double total=(double)s.statsTotalHoursPerDay().get(day);
             dayTotalData.getData().add(new XYChart.Data(day, total));
                 }
         } catch(SQLException er){          
@@ -237,7 +212,7 @@ public class UserInterface extends Application {
         
         this.courseList=new ArrayList<>();
         try{
-            this.courseList=base.getCourses();
+            this.courseList=s.dataGetCoursesNoGrades();
         } catch(SQLException er){
            
         }
@@ -246,7 +221,7 @@ public class UserInterface extends Application {
             EventHandler<ActionEvent> courseEvent = (ActionEvent e) -> {          
             this.currentCourseName=courseBox.getValue().toString();
             try{
-            this.goalTime=base.getDailyGoal(this.currentCourseName);
+            this.goalTime=s.dataGetDailyGoal(this.currentCourseName);
             } catch (SQLException err){
                 
             }
@@ -274,7 +249,7 @@ public class UserInterface extends Application {
             String goal="";
             
             try{
-                goal=String.valueOf(base.getDailyGoal(this.currentCourseName));
+                goal=String.valueOf(s.dataGetDailyGoal(this.currentCourseName));
             } catch (SQLException err){
                 
             }
@@ -287,7 +262,7 @@ public class UserInterface extends Application {
                 infoLO.getChildren().addAll(noCourseWarning);
             }
             else{
-                this.courseMap.get(this.currentCourseName).startSession();              
+                s.mapStartSession(this.currentCourseName);             
                 this.studying=true;
             }
         });
@@ -302,14 +277,13 @@ public class UserInterface extends Application {
                 Text noStart = new Text("WARNING: You have to start a session before you stop!");
             }
             else{
-                this.courseMap.get(this.currentCourseName).stopSession();
+                s.mapStopSession(this.currentCourseName);
                 this.studying=false;
-                Text percentage = new Text("The amount spent studying in this session vs goal: "+ this.courseMap.get(this.currentCourseName).getSessionVsGoalPercentage()+"%");
+                Text percentage = new Text("The amount spent studying in this session vs goal: "+ s.mapGetSessionVsGoal(this.currentCourseName)+"%");
                 infoLO.getChildren().addAll(percentage);
                 try{
-                    base.getSessionTimeForDB(this.courseMap.get(this.currentCourseName).getDate(), this.courseMap.get(this.currentCourseName).getSessionDay(), this.currentCourseName, this.courseMap.get(this.currentCourseName).getSessionTime());
-                    base.setDailyTime(this.courseMap.get(this.currentCourseName).getDate(), this.courseMap.get(this.currentCourseName).getSessionDay(), this.currentCourseName, this.courseMap.get(this.currentCourseName).getSessionTime());
-                    if(data.isOverLimit(this.currentCourseName)){
+                    s.dataSetDailyTime(s.mapGetDate(this.currentCourseName), s.mapGetDay(this.currentCourseName), this.currentCourseName, s.mapGetSessionTime(this.currentCourseName));
+                    if(s.statsIsOverLimit(this.currentCourseName)){
                         Text limitWarning = new Text("Your sessions in total for this course are exceeding the limit of 27 hours per. 1 credit. Take it easy");
                         infoLO.getChildren().addAll(limitWarning);
                     }
@@ -335,9 +309,9 @@ public class UserInterface extends Application {
             againstGoal.setName("Average study times against goal time for course "+this.currentCourseName);
         
                 try{
-                    for(int i=0;i<data.getAvgStudyAgainstGoal(this.currentCourseName).size();i++){
-                        String day=this.dayList.get(i);
-                        double per=(double)data.getAvgStudyAgainstGoal(this.currentCourseName).get(day);
+                    for(int i=0;i<s.statsAvgStudyVsGoal(this.currentCourseName).size();i++){
+                        String day=s.days().get(i).toString();
+                        double per=(double)s.statsAvgStudyVsGoal(this.currentCourseName).get(day);
                         againstGoal.getData().add(new XYChart.Data(day, per));
                      }
                 } catch(SQLException er){          
@@ -391,44 +365,67 @@ public class UserInterface extends Application {
         CategoryAxis xAxisMeanDay = new CategoryAxis();
         CategoryAxis xAxisMedianDay = new CategoryAxis();
         CategoryAxis xAxisSTDDay = new CategoryAxis();
+        CategoryAxis xAxisGrade = new CategoryAxis();
         
         xAxisMeanDay.setLabel("Days");
+        xAxisGrade.setLabel("Grade");
         
         NumberAxis yAxisMeanDay = new NumberAxis();
         NumberAxis yAxisSTDDay = new NumberAxis();
         NumberAxis yAxisMedianDay = new NumberAxis();
+        NumberAxis yAxisGrade = new NumberAxis();
         
         yAxisSTDDay.setAutoRanging(false);
         yAxisMeanDay.setAutoRanging(false);
         yAxisMedianDay.setAutoRanging(false);
+        yAxisGrade.setAutoRanging(false);
         
         yAxisSTDDay.setLowerBound(0);
         yAxisMedianDay.setLowerBound(0);
         yAxisMedianDay.setUpperBound(5);
+        yAxisGrade.setLowerBound(0);
         
         yAxisMeanDay.setLowerBound(0);
         yAxisSTDDay.setUpperBound(5);
         yAxisMeanDay.setUpperBound(5);
+        yAxisGrade.setUpperBound(100);
         
         yAxisMeanDay.setTickUnit(0.10);
         yAxisSTDDay.setTickUnit(0.10);
         yAxisMedianDay.setTickUnit(0.10);
+        yAxisGrade.setTickUnit(0.10);
+        yAxisGrade.setLabel("Hours");
         yAxisMeanDay.setLabel("Hours");
         
+        BarChart gradeHourChart = new BarChart(xAxisGrade, yAxisGrade);
         BarChart MeanDayChart = new BarChart(xAxisMeanDay, yAxisMeanDay);
+        XYChart.Series gradeData = new XYChart.Series();
         XYChart.Series daySTD = new XYChart.Series();
         XYChart.Series dayData = new XYChart.Series();
         XYChart.Series dayMedian = new XYChart.Series();
+        gradeData.setName("Grade vs. total hours");
         dayData.setName("Study session mean per. weekday");
         daySTD.setName("Standard deviation of study time per. weekday");
         dayMedian.setName("Median of study time per. weekday");
         
         try{
-        for(int i=0;i<this.dayList.size();i++){
-            String day=this.dayList.get(i).toString();
-            double mean=data.getMean(day, 1);
-            double std=data.getSTD(day, 1);
-            double median=data.getMedian(day, 1);
+            HashMap<Integer, Double> gradeList=s.statsGetTotalHoursByGrade();
+            for(int i : gradeList.keySet()){
+                String grade=String.valueOf(i);
+                double total=(double)gradeList.get(i);
+                gradeData.getData().add(new XYChart.Data(grade, total));
+            }
+        } catch (SQLException error){
+            
+        }
+        gradeHourChart.getData().add(gradeData);
+        
+        try{
+        for(int i=0;i<s.days().size();i++){
+            String day=s.days().get(i).toString();
+            double mean=s.statsMean(day, 1);
+            double std=s.statsSTD(day, 1);
+            double median=s.statsMedian(day, 1);
             dayData.getData().add(new XYChart.Data(day, mean));
             daySTD.getData().add( new XYChart.Data(day, std));
             dayMedian.getData().add( new XYChart.Data(day, median));
@@ -475,11 +472,11 @@ public class UserInterface extends Application {
         MedianData.setName("Median for study time per. date");
         
         try{
-        for(int i=0;i<base.getDates().size();i++){
-            String date=base.getDates().get(i).toString();
-            double mean=data.getMean(date, 2);
-            double std=data.getSTD(date, 2);
-            double median = data.getMedian(date, 2);
+        for(int i=0;i<s.dataGetDates().size();i++){
+            String date=s.dataGetDates().get(i).toString();
+            double mean=s.statsMean(date, 2);
+            double std=s.statsSTD(date, 2);
+            double median = s.statsMedian(date, 2);
             dateData.getData().add(new XYChart.Data(date, mean));
             STDData.getData().add(new XYChart.Data(date, std));
             MedianData.getData().add(new XYChart.Data(date, median));
@@ -529,11 +526,11 @@ public class UserInterface extends Application {
         courseMedian.setName("Study time median per. course");
         
         try{
-        for(int i=0;i<base.getCourses().size();i++){
-            String course=base.getCourses().get(i).toString();
-            double mean=data.getMean(course, 0);
-            double std=data.getSTD(course, 0);
-            double median=data.getMedian(course, 0);
+        for(int i=0;i<s.dataGetCourses().size();i++){
+            String course=s.dataGetCourses().get(i).toString();
+            double mean=s.statsMean(course, 0);
+            double std=s.statsSTD(course, 0);
+            double median=s.statsMedian(course, 0);
             courseData.getData().add(new XYChart.Data(course, mean));
             courseSTD.getData().add(new XYChart.Data(course, std));
             courseMedian.getData().add(new XYChart.Data(course, median));
@@ -549,7 +546,7 @@ public class UserInterface extends Application {
         Button returnButton = new Button("Return");
         returnButton.setAlignment(Pos.BOTTOM_CENTER);
         returnButton.setOnMouseClicked(e -> { stage.setScene(generalView()); });
-        layout.getChildren().addAll(MeanCourseChart, MeanDayChart, MeanDateChart, returnButton);
+        layout.getChildren().addAll(MeanCourseChart, MeanDayChart, MeanDateChart, gradeHourChart, returnButton);
         return new Scene(layout);
     }
     
@@ -562,13 +559,12 @@ public class UserInterface extends Application {
     public Scene studyTrackerScene(){
         VBox layout = new VBox();
         layout.setPadding(new Insets(20, 20, 20, 20));
-        layout.setPrefSize(500, 400);
+        layout.setPrefSize(1000, 500);
         layout.setAlignment(Pos.TOP_CENTER);
         Text title = new Text("Your personal productivityTracker");
         title.setStyle("-fx-font-weight: bold");
         
         Text guide = new Text("Start by typing in a new course, fill in its studypoints and the daily goal for studying");
-        
         HBox addCourse = new HBox();
         addCourse.setSpacing(10);
         addCourse.setAlignment(Pos.CENTER);
@@ -593,20 +589,62 @@ public class UserInterface extends Application {
         goalTextField.setPrefWidth(200);
         Button addGoalButton = new Button("Add goal time");
         
+        HBox addGrade = new HBox();
+        addGrade.setSpacing(10);
+        addGrade.setAlignment(Pos.CENTER);
+        addGrade.setPadding(new Insets(20, 20, 20, 20));
+        Text gradeGuide = new Text("Has a course ended? You can add a grade here.");
+        TextField courseField = new TextField();
+        courseField.setPrefWidth(200);
+        TextField gradeField = new TextField();
+        gradeField.setPrefWidth(200);
+        Button courseButton = new Button("Which course?");
+        Button addGradeButton = new Button("Add grade");
+        
         VBox addLO = new VBox(5);
         addLO.setAlignment(Pos.CENTER);
         addLO.setPadding(new Insets(20, 20, 20, 20));
         
+        courseButton.setOnAction(e -> {
+            try {
+                if(courseField.getText().equals("") || s.dataGetCourse(courseField.getText()).equals("")){
+                    Text noTextWarning = new Text("WARNING: The input for course name was empty or it wasn't found in study database");
+                    addLO.getChildren().add(noTextWarning);
+                }
+                else{
+                    this.currentCourseName=courseField.getText();
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(UserInterface.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
+        addGradeButton.setOnAction(e -> {
+            try {
+                if(gradeField.getText().equals("") || s.dataGetGrade(this.currentCourseName)!=0){
+                    Text noTextWarning = new Text("WARNING: The input for grade was empty or the course has already been graded");
+                    addLO.getChildren().add(noTextWarning);
+                }
+                else{
+                    int grade=Integer.parseInt(gradeField.getText());
+                    try {
+                        s.mapSetGrade(this.currentCourseName, grade);
+                    } catch (SQLException ex) {
+                    }
+                }
+            } catch (SQLException ex) {
+            }
+        });
+        
         addCourseButton.setOnAction(e -> {
-            Course newCourse = new Course();
-            if(courseTextField.getText().equals("") || this.courseMap.containsKey(courseTextField.getText())){
+            s.newCourse();
+            if(courseTextField.getText().equals("") || s.mapContainsKey(courseTextField.getText())){
                 Text noTextWarning = new Text("WARNING: The input for course name was empty or the course is already added");
                 addLO.getChildren().add(noTextWarning);
             }
             else{
                 this.currentCourseName=courseTextField.getText();
-                newCourse.setCourse(this.currentCourseName);
-                this.courseMap.put(this.currentCourseName, newCourse);
+                s.courseSetCourse(this.currentCourseName);
+                s.mapPutCourse(this.currentCourseName, s.course());
             }         
         });
         
@@ -617,7 +655,7 @@ public class UserInterface extends Application {
             } else{
             try {
             this.coursePoints=Double.parseDouble(pointsTextField.getText());
-            this.courseMap.get(this.currentCourseName).setPoints(coursePoints);
+            s.mapSetCoursePoints(this.currentCourseName, this.coursePoints);
             } catch (NumberFormatException ignore){
                 Text notNumberWarning = new Text("WARNING: Use numbers please");
                 addLO.getChildren().add(notNumberWarning);
@@ -632,9 +670,9 @@ public class UserInterface extends Application {
             } else {         
             try {
                 this.goalTime=Double.parseDouble(goalTextField.getText());
-                this.courseMap.get(this.currentCourseName).setDailyGoal(goalTime);
+                s.mapSetDailyGoal(this.currentCourseName, this.goalTime);
             try {
-                base.setCoursePointsAndGoal(this.currentCourseName, this.goalTime, this.coursePoints);
+                s.dataSetCoursePointsAndGoal(this.currentCourseName, this.goalTime, this.coursePoints);
                 Text success = new Text("Course succesfully added");
                 addLO.getChildren().add(success);
             } catch (SQLException ex) {
@@ -657,7 +695,9 @@ public class UserInterface extends Application {
         toSessionButton.setAlignment(Pos.BOTTOM_CENTER);
         toSessionButton.setOnAction(e -> { stage.setScene(sessionScene()); });
         
-        layout.getChildren().addAll(title, guide, addCourse, addPoints, addGoal, returnButton, toSessionButton, addLO);
+        layout.getChildren().addAll(title, guide, addCourse, addPoints, addGoal, addGrade, returnButton, toSessionButton, addLO);
+        
+        addGrade.getChildren().addAll(gradeGuide, courseField, courseButton, gradeField, addGradeButton);
         
         addCourse.getChildren().addAll(courseTextField, addCourseButton);
         
